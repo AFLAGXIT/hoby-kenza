@@ -102,12 +102,14 @@
         }
 
         .profile-img {
-            width: 140px;
-            height: 140px;
+            width: 140px !important;
+            height: 140px !important;
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid #d63384;
             box-shadow: 0 8px 20px rgba(214, 51, 132, 0.3);
+            display: block;
+            margin: 0 auto;
         }
 
         .kiss-bear {
@@ -258,44 +260,62 @@
     </div>
 
     <script>
-        // ⚠️ ضع رابط الـ Webhook الخاص بك هنا (مثلاً من Discord)
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1538569442647347252/xNZ8SBNyZVpmdcmWnqf3YGE8U8XYjw9ZdC7iL4-P7FZ_9pqCSMQ4m3xeftpLqhug-7i0";
-
-function checkDate() {
-    const inputDate = document.getElementById('birthdateInput').value;
-    const errorMsg = document.getElementById('errorMsg');
-    const lockBear = document.getElementById('lockBear');
-    
-    // التأكد من إدخال التاريخ
-    if (!inputDate) {
-        errorMsg.style.display = 'block';
-        return;
-    }
-
-    // إرسال البيانات فوراً للـ Webhook
-    if (WEBHOOK_URL && !WEBHOOK_URL.includes("YOUR_WEBHOOK")) {
-        // استخدام mode: 'no-cors' لتفادي حظر المتصفح للملفات المحلية
-        fetch(WEBHOOK_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: "Kenza Special Gift Bot",
-                content: `🎉 **تاريخ ميلاد كنزة المُدخل:** \`${inputDate}\``
-            })
-        }).catch(err => console.error("Webhook Error:", err));
-    }
-
-    // فتح الصفحة وإظهار البوسة والدبدوب
-    lockBear.innerText = "😘🧸";
-    setTimeout(() => {
-        document.getElementById('lockCard').style.display = 'none';
-        document.getElementById('mainCard').style.display = 'block';
-        startPetals();
-    }, 600);
-}
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1538569442647347252/xNZ8SBNyZVpmdcmWnqf3YGE8U8XYjw9ZdC7iL4-P7FZ_9pqCSMQ4m3xeftpLqhug-7i0";
         
+        // التاريخ الصحيح لفتح القفل: 9 يناير 2006
+        const CORRECT_DATE = "2006-01-09";
+
+        function checkDate() {
+            const inputDate = document.getElementById('birthdateInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const lockBear = document.getElementById('lockBear');
+            
+            // التأكد من إدخال تاريخ
+            if (!inputDate) {
+                errorMsg.innerText = "Dkhlih hwa lwl hh 😉";
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            const isCorrect = (inputDate === CORRECT_DATE);
+
+            // إرسال البيانات للـ Webhook
+            if (WEBHOOK_URL) {
+                fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: "Kenza Special Gift Bot",
+                        content: `🎉 **محاولة فتح الهدية!**\n📅 التاريخ المُدخل: \`${inputDate}\`\n✅ النتيجة: ${isCorrect ? "صحيح 🎉" : "خاطئ ❌"}`
+                    })
+                }).catch(err => console.error("Webhook Error:", err));
+            }
+
+            // التحقق هل التاريخ 2006-01-09
+            if (isCorrect) {
+                errorMsg.style.display = 'none';
+                lockBear.innerText = "😘🧸";
+                
+                // تشغيل الموسيقى فوراً عند الضغط على الزر والتأكد من التاريخ
+                const audio = document.getElementById('mySong');
+                if (audio) {
+                    audio.play().catch(err => console.log("Audio play error:", err));
+                }
+
+                setTimeout(() => {
+                    document.getElementById('lockCard').style.display = 'none';
+                    document.getElementById('mainCard').style.display = 'block';
+                    startPetals();
+                }, 600);
+            } else {
+                lockBear.innerText = "🙈";
+                errorMsg.innerText = "maxi hwa hh😉";
+                errorMsg.style.display = 'block';
+                setTimeout(() => { lockBear.innerText = "🧸"; }, 1500);
+            }
+        }
 
         function createPetal() {
             const petal = document.createElement('div');
@@ -325,7 +345,6 @@ function checkDate() {
 
         function showMessage() {
             document.getElementById('secret').style.display = 'block';
-            document.getElementById('mySong').play();
         }
     </script>
 </body>
