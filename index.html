@@ -192,6 +192,44 @@
             animation: fadeIn 1s ease forwards;
         }
 
+        /* تصميم صندوق الرد */
+        .reply-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            border: 1px solid #ff80ab;
+            text-align: right;
+        }
+
+        .reply-box h3 {
+            color: #d63384;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .reply-box textarea {
+            width: 100%;
+            height: 90px;
+            padding: 10px;
+            border: 1px solid #ffb2c9;
+            border-radius: 10px;
+            outline: none;
+            resize: none;
+            font-family: inherit;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            direction: rtl;
+        }
+
+        .reply-status {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
@@ -223,7 +261,7 @@
     <!-- شاشة القفل -->
     <div id="lockCard" class="lock-card">
         <div id="lockBear" class="bear-container">🧸</div>
-        <h2>KADO KHASS BIK AHEBY🔒</h2>
+        <h2>ntmna txofi hna xi mra🔒</h2>
         <p>ادخلي تاريخ ميلادكِ لفتح الهدية ❤️</p>
         
         <input type="date" id="birthdateInput">
@@ -241,7 +279,7 @@
         </div>
 
         <h1>hobyy kenza✨</h1>
-        <div class="subtitle">9bli mni had kado bsit💖</div>
+        <div class="subtitle">sm7ili bzaf💖</div>
         
         <p>
             في عينيكِ الجميلة عالم آخر، يذكرني دائماً بمدى حظي لأنكِ في حياتي. 20 عاماً وأنتِ تزدادين جمالاً وإشراقاً!
@@ -254,8 +292,17 @@
         </audio>
         
         <div id="secret" class="secret-message">
-            👀 einik homa ajmel sihr fhad dnya mn nhar erftek whyati ghada otzyan nhar ela nhar oana nt2ked bli nty hiya lmra li baghi nkmel meaha hayati wakha madazex bzaf 9lby rta7 lik b7ala kanerfek mn x7aal hadi bnt zwina ohnina ahsan kado etah liya rby oewdni ela alam ojro7 dazo eliya n9der nbalek kanbalegh wlkn kola kelma gltha gltha mn 9lby akenza obghit ngolek bli jamais ydik liya xi wa7ed nty welity we7da mn aham nass lieandi f7yati lihoma walidiya kan7ess brassi merta7 meak okanbghi gha nhder meak okanbghi dak i7ssass li kat3tini mabghitx ntsta3jel ela mosta9bal ghir bghit neix meak hadxi bxwiya bxwiya onkono zwininn mea bediyatna omangdebx elik wlit nfker fik kter mn 9yass okanfre7 fax knxof msg mnek wila kant xi 7aja mt2kd mnha db hiya blli knmout elik <br>
-            mwaaaaaaaaaaaa7 elik aheby 💖💋
+            Kenza ila 9rit had msg bghit nwsel lik xi hdra kenza earf bli hadxi drt jak bizar oseib elik t9blih l7ob emro mytnsa bin lila onhar ana akenza tfer9t elik bzaf dlassbab li maearfahomx oila erftihom mo7alx tzidi tbghini odakxi lax mn a7san nb3do ela b3diyatna ana insan li mrid mn dakhel maxi mn bra earfa bli hoby lik 79i9i oearfani oa7san 7el hwa ntfar9o maxi hrob kima katgoli wlkn 7sen mnzidox nwlfo b3diyatna kteer htx ra hoby lik anetik gha mital l7obi lik lbare7 khrejt mn dar fax gtlk bedi eliya kent anmout jablah jat afmotor oana ki knt sayeg kanbki abo7di mhm rdi lbal rassek bzaf oana ghi lab9it eayex an3ix abohdi htx glt zema nrta7 meak wlkn hass bli andlmek meaya oxofi nti li rab7a ana wlh hbitek bzaf ohbit xkhsiytek nxaalah laylagik bxi wld nass li ystahlek oxofi mni twldi xi wliyed smih younes sffi anerfk katbghini wakha manxof an7ess kanbghik bzaf lyshel elik abnt nass  <nav></nav>  <br><br>
+            <i> إلا كان باقي عندك ما يتقال أو باغا تحكي ليا شي حاجة، خلي ليا مساج تحت وراه غادي يوصلني غير أنا وحدي ❤️</i> <br><br>
+            
+
+            <!-- خانة إرسال الرد -->
+            <div id="replyBox" class="reply-box">
+                <h3>باغية تقولي ليا شي حاجة؟ 💌</h3>
+                <textarea id="userReply" placeholder="كتبي المساج ديالك هنا..."></textarea>
+                <button onclick="sendReply()">إرسال الرسالة ✨</button>
+                <div id="replyStatus" class="reply-status"></div>
+            </div>
         </div>
     </div>
 
@@ -345,6 +392,38 @@
 
         function showMessage() {
             document.getElementById('secret').style.display = 'block';
+        }
+
+        // دالة إرسال الرد للـ Webhook
+        function sendReply() {
+            const replyText = document.getElementById('userReply').value;
+            const statusDiv = document.getElementById('replyStatus');
+
+            if (!replyText.trim()) {
+                statusDiv.style.color = '#e63946';
+                statusDiv.innerText = "كتبي شي حاجة بعدا 😉";
+                return;
+            }
+
+            if (WEBHOOK_URL) {
+                fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: "Kenza Special Gift Bot",
+                        content: `📩 **مساج جديد من كنزة!**\n💬 الرسالة:\n> ${replyText}`
+                    })
+                })
+                .then(() => {
+                    statusDiv.style.color = '#2a9d8f';
+                    statusDiv.innerText = "وصلني المساج ديالك ❤️";
+                    document.getElementById('userReply').value = '';
+                })
+                .catch(err => {
+                    statusDiv.style.color = '#e63946';
+                    statusDiv.innerText = "وقع مشكل فالإرسال، عاودي جربي.";
+                });
+            }
         }
     </script>
 </body>
