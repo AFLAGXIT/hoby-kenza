@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LIK FIDEEEL ❤️</title>
+    <title>kado dyalek ❤️</title>
     <!-- Bibliothèque pour les confettis -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -378,6 +378,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            pointer-events: none; /* يخلي الكليك يدوز للـ parent div */
         }
 
         .item-tag {
@@ -392,6 +393,7 @@
             font-weight: bold;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(82, 183, 136, 0.2);
+            pointer-events: none;
         }
 
         /* Lightbox Fullscreen Popup */
@@ -402,37 +404,39 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 99999; /* الفوقاني كاع */
             justify-content: center;
             align-items: center;
             padding: 20px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
         }
 
         .lightbox-content {
-            max-width: 95%;
+            max-width: 95vw;
             max-height: 85vh;
             border-radius: 16px;
             border: 1px solid rgba(82, 183, 136, 0.5);
             box-shadow: 0 0 30px rgba(82, 183, 136, 0.3);
+            object-fit: contain;
         }
 
         .lightbox-close {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 25px;
+            right: 25px;
             color: #fff;
             font-size: 2rem;
             cursor: pointer;
-            background: rgba(16, 37, 26, 0.8);
+            background: rgba(16, 37, 26, 0.9);
             width: 45px;
             height: 45px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid rgba(82, 183, 136, 0.3);
+            border: 1px solid rgba(82, 183, 136, 0.4);
+            z-index: 100000;
         }
 
         .click-heart {
@@ -487,7 +491,7 @@
         </div>
 
         <h1>hobyy kenza✨</h1>
-        <div class="subtitle">KANBGHIKK BZAAAF💖</div>
+        <div class="subtitle">sm7ili bzaf💖</div>
 
         <button class="btn-secondary" onclick="openAlbumPage()">📸 استكشفي ألبوم الذكريات (7 صور + فيديو)</button>
         <button onclick="showMessage()">اضغطي هنا للسر 🎁</button>
@@ -497,7 +501,7 @@
         </audio>
         
         <div id="secret" class="secret-message">
-           MAKHDMTX DESING MZYAN MS HBIT TAL MN BED DB GHI ZET HAD MIZAT JDAD HH <br><br>
+            kenza, ana 3arf blli klami 9s7ek w blli 7assa b lwja3, w wllah ma kan 9sdi ndmrek wla n2adik. nti bnt nass w tstahli kol khyr, w l-ghyab dyali machi 7it nti na9sa wla 7it ma 3zizach, wlkin 7it ana dabba f w7d l-ftra f 7yati ma 9adrch nkon fiha ch-chkhs lli tstahlih w ys3dek. ana m7taj nsl7 rasi w nwajh 7aly w droufi bo7di, w ma bghitch njrrek m3aya f had l-machakil wla ndlemek m3aya knchkkrek 3la kol 7aja zwina dweznaha, w kntmnna lik men 9lbi rbi y3wwdek b la7san w ys3dek f 7yatek. sm7i liya bzaf w thllay f raseki <br><br>
             
             <i> إلا كان باقي عندك ما يتقال أو باغا تحكي ليا شي حاجة، خلي ليا مساج أو أوديو تحت وراه غادي يوصلني غير أنا وحدي ❤️</i> <br><br>
 
@@ -536,23 +540,23 @@
     <!-- PAGE 2: Album / Gallery Page -->
     <div id="albumPage" class="card">
         <div class="gallery-header">📸 ألبوم اللحظات الخاصة</div>
-        <div class="gallery-sub">TSAWERNAA YB9AW HNA✨</div>
+        <div class="gallery-sub">أحلى الذكريات والصور اللي تجمعنا ✨</div>
 
         <div class="gallery-grid">
             <!-- الصورة 1 -->
-            <div class="gallery-item" onclick="openLightbox('img1.jpg', 'image')">
+            <div class="gallery-item" onclick="openLightbox('1.jpg', 'image', event)">
                 <img src="1.jpg" alt="Memory 1">
                 <div class="item-tag">ذكرى 1 ❤️</div>
             </div>
 
             <!-- الصورة 2 -->
-            <div class="gallery-item" onclick="openLightbox('img2.jpg', 'image')">
+            <div class="gallery-item" onclick="openLightbox('2.jpg', 'image', event)">
                 <img src="2.jpg" alt="Memory 2">
                 <div class="item-tag">ذكرى 2 ✨</div>
             </div>
 
             <!-- الفيديو المخصص -->
-            <div class="gallery-item video-item" onclick="openLightbox('memories-video.mp4', 'video')">
+            <div class="gallery-item video-item" onclick="openLightbox('VD.mp4', 'video', event)">
                 <video muted preload="metadata">
                     <source src="VD.mp4" type="video/mp4">
                 </video>
@@ -560,33 +564,29 @@
             </div>
 
             <!-- الصورة 3 -->
-            <div class="gallery-item" onclick="openLightbox('img3.jpg', 'image')">
+            <div class="gallery-item" onclick="openLightbox('3.jpg', 'image', event)">
                 <img src="3.jpg" alt="Memory 3">
                 <div class="item-tag">ذكرى 3 💖</div>
             </div>
 
             <!-- الصورة 4 -->
-            <div class="gallery-item" onclick="openLightbox('img4.jpg', 'image')">
+            <div class="gallery-item" onclick="openLightbox('4.jpg', 'image', event)">
                 <img src="4.jpg" alt="Memory 4">
                 <div class="item-tag">ذكرى 4 🌿</div>
             </div>
 
-            <!-- الصورة 5 -->
-            <div class="gallery-item" onclick="openLightbox('img5.jpg', 'image')">
-                <img src="5.jpg" alt="Memory 5">
-                <div class="item-tag">ذكرى 5 🌸</div>
-            </div>
+            
 
             <!-- الصورة 6 -->
-            <div class="gallery-item" onclick="openLightbox('img6.jpg', 'image')">
+            <div class="gallery-item" onclick="openLightbox('6.jpg', 'image', event)">
                 <img src="6.jpg" alt="Memory 6">
-                <div class="item-tag">✨</div>
+                <div class="item-tag">ذكرى 6 ✨</div>
             </div>
 
             <!-- الصورة 7 -->
-            <div class="gallery-item" style="grid-column: span 2;" onclick="openLightbox('img7.jpg', 'image')">
+            <div class="gallery-item" style="grid-column: span 2;" onclick="openLightbox('7.jpg', 'image', event)">
                 <img src="7.jpg" alt="Memory 7">
-                <div class="item-tag">👑</div>
+                <div class="item-tag">الصورة 👑</div>
             </div>
         </div>
 
@@ -594,9 +594,9 @@
     </div>
 
     <!-- Lightbox Fullscreen Modal -->
-    <div id="lightbox" class="lightbox">
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
         <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-        <div id="lightboxContainer" style="width: 100%; display: flex; justify-content: center;"></div>
+        <div id="lightboxContainer" style="width: 100%; display: flex; justify-content: center;" onclick="event.stopPropagation()"></div>
     </div>
 
     <script>
@@ -710,29 +710,54 @@
             document.getElementById('mainCard').style.display = 'block';
         }
 
-        /* Lightbox Preview */
-        function openLightbox(src, type) {
-            const lightbox = document.getElementById('lightbox');
-            const container = document.getElementById('lightboxContainer');
-            container.innerHTML = '';
+        /* Lightbox Preview Preview Fixed */
+        /* Lightbox Preview avec détection d'erreur */
+function openLightbox(src, type, e) {
+    if (e) e.stopPropagation();
 
-            if (type === 'image') {
-                const img = document.createElement('img');
-                img.src = src;
-                img.className = 'lightbox-content';
-                container.appendChild(img);
-            } else if (type === 'video') {
-                const video = document.createElement('video');
-                video.src = src;
-                video.className = 'lightbox-content';
-                video.controls = true;
-                video.autoplay = true;
-                pauseMainMusic();
-                container.appendChild(video);
-            }
+    const lightbox = document.getElementById('lightbox');
+    const container = document.getElementById('lightboxContainer');
+    container.innerHTML = '';
 
-            lightbox.style.display = 'flex';
-        }
+    if (type === 'image') {
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'lightbox-content';
+        
+        // إلا مالقاش الصورة فـ Folder كايطلع تنبيه
+        img.onerror = function() {
+            container.innerHTML = `
+                <div style="text-align: center; color: #ff6b6b; padding: 20px; background: rgba(0,0,0,0.8); border-radius: 15px; border: 1px solid #ff6b6b;">
+                    <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 8px;">⚠️ مالقاش الصورة!</p>
+                    <p style="font-size: 0.95rem; color: #fff;">التطبيق كايقلب على ملف سميتو: <code style="color: #74c69d; background: #111; padding: 2px 6px; border-radius: 4px;">${src}</code></p>
+                    <p style="font-size: 0.85rem; color: #aaa; margin-top: 10px;">تأكد بلّي الملف محطوط حدى index.html ونفس السمية بالضبط (Majuscule/Minuscule).</p>
+                </div>
+            `;
+        };
+        
+        container.appendChild(img);
+    } else if (type === 'video') {
+        const video = document.createElement('video');
+        video.src = src;
+        video.className = 'lightbox-content';
+        video.controls = true;
+        video.autoplay = true;
+        
+        video.onerror = function() {
+            container.innerHTML = `
+                <div style="text-align: center; color: #ff6b6b; padding: 20px; background: rgba(0,0,0,0.8); border-radius: 15px; border: 1px solid #ff6b6b;">
+                    <p style="font-size: 1.2rem; font-weight: bold;">⚠️ مالقاش الفيديو!</p>
+                    <p style="font-size: 0.95rem; color: #fff;">تأكد من وجود: <code style="color: #74c69d; background: #111; padding: 2px 6px; border-radius: 4px;">${src}</code></p>
+                </div>
+            `;
+        };
+
+        pauseMainMusic();
+        container.appendChild(video);
+    }
+
+    lightbox.style.display = 'flex';
+}
 
         function closeLightbox() {
             const lightbox = document.getElementById('lightbox');
