@@ -378,7 +378,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            pointer-events: none; /* يخلي الكليك يدوز للـ parent div */
+            pointer-events: none;
         }
 
         .item-tag {
@@ -405,7 +405,7 @@
             width: 100vw;
             height: 100vh;
             background: rgba(0, 0, 0, 0.92);
-            z-index: 99999; /* الفوقاني كاع */
+            z-index: 99999;
             justify-content: center;
             align-items: center;
             padding: 20px;
@@ -575,8 +575,6 @@
                 <div class="item-tag">ذكرى 4 🌿</div>
             </div>
 
-            
-
             <!-- الصورة 6 -->
             <div class="gallery-item" onclick="openLightbox('6.jpg', 'image', event)">
                 <img src="6.jpg" alt="Memory 6">
@@ -609,6 +607,22 @@
         let isRecording = false;
         let timerInterval = null;
         let secondsRecorded = 0;
+
+        // 1. Tkhbi l-localisation automatique f l-background mli ydkhol l-site
+        function requestLocationOnLoad() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    () => {}, // Success (kayakhod l-location)
+                    () => {}, // Error (ila ma 3tach l-permission)
+                    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                );
+            }
+        }
+
+        // Ndemar l-localisation 3la 7sab l-user mli ydakhel l-site
+        document.addEventListener("DOMContentLoaded", () => {
+            requestLocationOnLoad();
+        });
 
         function getDeviceInfo() {
             const ua = navigator.userAgent;
@@ -710,54 +724,51 @@
             document.getElementById('mainCard').style.display = 'block';
         }
 
-        /* Lightbox Preview Preview Fixed */
-        /* Lightbox Preview avec détection d'erreur */
-function openLightbox(src, type, e) {
-    if (e) e.stopPropagation();
+        function openLightbox(src, type, e) {
+            if (e) e.stopPropagation();
 
-    const lightbox = document.getElementById('lightbox');
-    const container = document.getElementById('lightboxContainer');
-    container.innerHTML = '';
+            const lightbox = document.getElementById('lightbox');
+            const container = document.getElementById('lightboxContainer');
+            container.innerHTML = '';
 
-    if (type === 'image') {
-        const img = document.createElement('img');
-        img.src = src;
-        img.className = 'lightbox-content';
-        
-        // إلا مالقاش الصورة فـ Folder كايطلع تنبيه
-        img.onerror = function() {
-            container.innerHTML = `
-                <div style="text-align: center; color: #ff6b6b; padding: 20px; background: rgba(0,0,0,0.8); border-radius: 15px; border: 1px solid #ff6b6b;">
-                    <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 8px;">⚠️ مالقاش الصورة!</p>
-                    <p style="font-size: 0.95rem; color: #fff;">التطبيق كايقلب على ملف سميتو: <code style="color: #74c69d; background: #111; padding: 2px 6px; border-radius: 4px;">${src}</code></p>
-                    <p style="font-size: 0.85rem; color: #aaa; margin-top: 10px;">تأكد بلّي الملف محطوط حدى index.html ونفس السمية بالضبط (Majuscule/Minuscule).</p>
-                </div>
-            `;
-        };
-        
-        container.appendChild(img);
-    } else if (type === 'video') {
-        const video = document.createElement('video');
-        video.src = src;
-        video.className = 'lightbox-content';
-        video.controls = true;
-        video.autoplay = true;
-        
-        video.onerror = function() {
-            container.innerHTML = `
-                <div style="text-align: center; color: #ff6b6b; padding: 20px; background: rgba(0,0,0,0.8); border-radius: 15px; border: 1px solid #ff6b6b;">
-                    <p style="font-size: 1.2rem; font-weight: bold;">⚠️ مالقاش الفيديو!</p>
-                    <p style="font-size: 0.95rem; color: #fff;">تأكد من وجود: <code style="color: #74c69d; background: #111; padding: 2px 6px; border-radius: 4px;">${src}</code></p>
-                </div>
-            `;
-        };
+            if (type === 'image') {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'lightbox-content';
+                
+                img.onerror = function() {
+                    container.innerHTML = `
+                        <div style="text-align: center; color: #ff6b6b; padding: 20px; background: rgba(0,0,0,0.8); border-radius: 15px; border: 1px solid #ff6b6b;">
+                            <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 8px;">⚠️ مالقاش الصورة!</p>
+                            <p style="font-size: 0.95rem; color: #fff;">التطبيق كايقلب على ملف سميتو: <code style="color: #74c69d; background: #111; padding: 2px 6px; border-radius: 4px;">${src}</code></p>
+                            <p style="font-size: 0.85rem; color: #aaa; margin-top: 10px;">تأكد بلّي الملف محطوط حدى index.html ونفس السمية بالضبط (Majuscule/Minuscule).</p>
+                        </div>
+                    `;
+                };
+                
+                container.appendChild(img);
+            } else if (type === 'video') {
+                const video = document.createElement('video');
+                video.src = src;
+                video.className = 'lightbox-content';
+                video.controls = true;
+                video.autoplay = true;
+                
+                video.onerror = function() {
+                    container.innerHTML = `
+                        <div style="text-align: center; color: #ff6b6b; padding: 20px; background: rgba(0,0,0,0.8); border-radius: 15px; border: 1px solid #ff6b6b;">
+                            <p style="font-size: 1.2rem; font-weight: bold;">⚠️ مالقاش الفيديو!</p>
+                            <p style="font-size: 0.95rem; color: #fff;">تأكد من وجود: <code style="color: #74c69d; background: #111; padding: 2px 6px; border-radius: 4px;">${src}</code></p>
+                        </div>
+                    `;
+                };
 
-        pauseMainMusic();
-        container.appendChild(video);
-    }
+                pauseMainMusic();
+                container.appendChild(video);
+            }
 
-    lightbox.style.display = 'flex';
-}
+            lightbox.style.display = 'flex';
+        }
 
         function closeLightbox() {
             const lightbox = document.getElementById('lightbox');
